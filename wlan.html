@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>测试网速</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="format-detection" content="telephone=no" />
+    <style>
+        html,
+        body
+        {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+        }
+
+        body
+        {
+            color: #000;
+            overflow-x: hidden;
+            background-color: #ededed;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-overflow-scrolling: touch;
+            -webkit-appearance: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            /*长按高亮选中*/
+        }
+
+        div
+        {
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        img
+        {
+            pointer-events: none;
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        img,
+        a
+        {
+            -webkit-touch-callout: none;
+        }
+
+        header
+        {
+            text-align: center;
+            background-color: #fff;
+            width: 100%;
+            height: 50px;
+            position: fixed;
+            top: 0;
+        }
+
+        .intend,
+        .intend-item
+        {
+            width: 100%;
+            text-align: center;
+        }
+
+        .intend.card
+        {
+            background-color: #fff;
+        }
+
+        .intend.prg
+        {
+            padding: 2rem 0 2rem 0;
+        }
+
+        .intend.prg h3
+        {
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: left;
+            margin: 1rem 0 .5rem 1rem;
+        }
+
+        .intend.prg h3 span
+        {
+            float: right;
+            margin-right: 1rem;
+        }
+
+        .img-prg,
+        .vdo-prg
+        {
+            margin: 10px auto;
+            width: 90%;
+            height: 5px;
+            background-color: #ccc;
+        }
+
+        .img-prg div
+        {
+            width: 0%;
+            height: 100%;
+            background-color: #3382e2;
+        }
+
+        .next-btn,
+        .img-box
+        {
+            margin: 15px auto;
+            width: 100%;
+            text-align: center;
+        }
+
+        .img-box img
+        {
+            width: 100%;
+            height: auto;
+            vertical-align: top;
+        }
+
+        .next-btn input[type=button]
+        {
+            font-size: 100%;
+            margin: 0 auto;
+            color: #fff;
+            width: 80%;
+            background-color: #3382e2;
+            border: none;
+            border-radius: 5px;
+            height: 2.5em;
+            -webkit-appearance: none;
+        }
+
+        .next-btn input[type=button].btn-inline
+        {
+            width: 40%;
+            display: inline;
+        }
+
+    </style>
+</head>
+
+<body onselectstart='return false'>
+    <div class='content'>
+        <div class='intend card prg'>
+            <div class='intend-item'>
+                <h3>www.qq.com<span></span></h3>
+                <div class='img-prg'>
+                    <div></div>
+                </div>
+                <h3>www.sina.com.cn<span></span></h3>
+                <div class='img-prg'>
+                    <div></div>
+                </div>
+                <h3>www.baidu.com<span></span></h3>
+                <div class='img-prg'>
+                    <div></div>
+                </div>
+                <h3>www.163.com<span></span></h3>
+                <div class='img-prg'>
+                    <div></div>
+                </div>
+                <h3>www.eastmoney.com<span></span></h3>
+                <div class='img-prg'>
+                    <div></div>
+                </div>
+                <h3>https://jyapp.eastmoney.com<span></span></h3>
+                <div class='img-prg'>
+                    <div></div>
+                </div>
+                <h3>颜色多为绿色为优 ============颜色多为黄色为良
+                </h3>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <img src="">
+    <!-- <img src='' οnerrοr="getResponseTime();" /> -->
+    <footer>
+        <div class='next-btn'>
+            <input type='button' value='开始测速'>
+        </div>
+    </footer>
+    </div>
+    <script>
+        window.onload = function()
+        {
+            var btn = document.querySelector('input'),
+                img = document.querySelector('img'),
+                sites = document.querySelectorAll('.intend-item h3'),
+                infos = document.querySelectorAll('.intend-item h3 span'),
+                index = 0,
+                t1 = new Date(),
+                prgs = document.querySelectorAll('.img-prg div');
+
+
+            btn.addEventListener('click', function()
+            {
+                reset();
+                start();
+            })
+            img.onerror = function()
+            {
+                finish();
+            }
+
+
+            function setProgress()
+            {
+                var process = 0;
+                window.int = setInterval(function()
+                {
+                    process++;
+                    if (process <= 100)
+                    {
+                        prgs[index].style.width = process + '%';
+                    }
+                    else
+                    {
+                        clearInterval(window.int);
+                        setResult('无法连接');
+                    }
+                }, 100)
+            }
+
+
+            function stopProgress()
+            {
+                window.int && clearInterval(window.int);
+            }
+
+
+            function start()
+            {
+                var site = sites[index].innerHTML;
+                site = site.substr(0, site.indexOf('<span'));
+                if (site.indexOf('http') < 0 || site.indexOf('https') < 0)
+                {
+                    site = 'http://' + site;
+                }
+                img.src = site + "/virnos_test.gif&id=" + Math.random(1);
+                t1 = new Date();
+                setResult('测速中...');
+                setProgress();
+            }
+
+            function reset()
+            {
+                index = 0;
+                for (var i = 0; i < prgs.length; i++)
+                {
+                    prgs[i].style.width = 0;
+                    infos[i].innerHTML = '';
+                };
+            }
+
+
+            function finish()
+            {
+                t2 = new Date();
+                stopProgress();
+                setResult((t2 - t1) / 1000);
+
+
+                if (index < sites.length)
+                {
+                    index++;
+                    setResult('测速中...');
+                    setTimeout(function()
+                    {
+                        start();
+                    }, 1000)
+                }
+            }
+
+
+            function setResult(r)
+            {
+                var c = '';
+                if (r < .1)
+                {
+                    c = 'lightgreen';
+                }
+                else if (r < 1)
+                {
+                    c = 'orange';
+                }
+                else
+                {
+                    c = 'red';
+                }
+                if (typeof(r) == 'number')
+                {
+                    r += 's';
+                    infos[index].style.color = c;
+                }
+                else
+                {
+                    infos[index].style.color = '#000';
+                }
+                infos[index].innerHTML = r;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

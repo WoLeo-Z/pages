@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CSS 测试</title>
+<link href="css-test.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body>
+<h1 data-spotlight="WoLeo-Z">WoLeo-Z</h1>
+</body>
+</html>
